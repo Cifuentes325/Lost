@@ -8,20 +8,24 @@ public class Player extends GameObject{
 
 	Handler handler;
 	public int counter = 15;
+	public float health;
 	
-	public Player(float x, float y, mobId id, int direction, Handler handler) {
+	public Player(float x, float y, mobId id, int direction, float health ,Handler handler) {
 		super(x, y, id, direction);
 		this.handler = handler;
+		this.health = health;
+		setHealth(health);
 	}
 
 	
 	public void tick() {
+
 		x += velX;
         y += velY;
         x = Game.clamp((int)x, 0, Game.WIDTH-36);
         y = Game.clamp((int)y, 0, Game.HEIGHT-36); 
         if(attack==true && counter == 0){
-        	handler.addObject(new Bullet(x+16,y+16, mobId.Bullet, direction, handler));
+        	handler.addObject(new Bullet(x+16,y+16, mobId.Bullet, direction, handler,this));
         	counter = 15;
         }
         else if(attack == true && counter > 0){
@@ -43,7 +47,16 @@ public class Player extends GameObject{
 	}
 	
 	public void collision(){
-		
+        for(int i = 0; i < handler.object.size(); ++i)
+        {
+            GameObject tempObject = handler.object.get(i);
+            if(tempObject.getId() == mobId.BasicEnemy ){
+                if(getBounds().intersects(tempObject.getBounds()))
+                    if(getHealth() > 0)
+                    	setHealth(getHealth()-3);
+                
+            } 
+        }
 	}
 
 

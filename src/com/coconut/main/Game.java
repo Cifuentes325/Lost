@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -11,11 +12,15 @@ public class Game extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 1963568187483608292L;
 
+	
+	private Random r;
+	
 	public static final int WIDTH = 600, HEIGHT = WIDTH/12 *9;
 	private Thread thread;
 	private boolean running = false;
 	public static boolean paused = false;
 	private Handler handler;
+	private HUD hud;
     public enum STATE{
         StartMenu,
         Pause,
@@ -29,15 +34,21 @@ public class Game extends Canvas implements Runnable{
 	public Game(){
 		
 		handler = new Handler();
-		
+		r = new Random();
 		
 		
 		new Window(WIDTH, HEIGHT, "LOST" ,this);
 		this.addKeyListener(new KeyInput(handler,this));
 		//starts games right away for testing
 		gameState = STATE.Game;
-        handler.addObject(new Player(WIDTH/2 -32,HEIGHT/2 - 32, mobId.Player, 1, handler));
-        handler.clearEnemies();
+        handler.addObject(new Player(WIDTH/2 -32,HEIGHT/2 - 32, mobId.Player, 1, 100 ,handler));
+        
+        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
+        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
+        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
+        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
+        hud = new HUD(handler,this);
+        //handler.clearEnemies();
 		
 	}
 	
@@ -94,6 +105,8 @@ public class Game extends Canvas implements Runnable{
 	
     private void tick(){
     	handler.tick();
+    	hud.tick();
+    	
     }
 	
     private void render(){
@@ -107,7 +120,9 @@ public class Game extends Canvas implements Runnable{
     	Graphics g = bs.getDrawGraphics();
     	g.setColor(Color.BLACK);
     	g.fillRect(0, 0, WIDTH, HEIGHT);
+    	hud.render(g);
     	handler.render(g);
+    	
     	g.dispose();
     	bs.show();
     }

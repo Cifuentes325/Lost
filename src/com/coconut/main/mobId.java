@@ -4,7 +4,6 @@ public enum mobId {
 	
 	Player(),
 	Bullet(),
-	Slime(),
-	Bat();
+	BasicEnemy();
 	
 }

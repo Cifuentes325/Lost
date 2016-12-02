@@ -10,6 +10,7 @@ public abstract class GameObject {
     protected float velX, velY;
     protected int direction; //up = 1, down = 2, left = 3, right = 4
     protected boolean attack;
+    protected float health;
     
     public GameObject(float x, float y, mobId id, int direction)
     {
@@ -21,6 +22,7 @@ public abstract class GameObject {
     
     public abstract void tick();
     public abstract void render(Graphics g);
+    public abstract Rectangle getBounds();
     
     public void setX(float x)
     {
@@ -76,5 +78,14 @@ public abstract class GameObject {
     {
         return attack;
     }
+    public void setHealth(float health)
+    {
+        this.health = health;
+    }
+    public float getHealth()
+    {
+        return health;
+    }
+    
     
 }

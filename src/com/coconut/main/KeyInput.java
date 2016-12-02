@@ -21,6 +21,7 @@ public class KeyInput extends KeyAdapter{
         keyDown[2] = false;
         keyDown[3] = false;
         keyDown[4] = false;
+
         
     }  
     public void keyPressed(KeyEvent e){
@@ -34,24 +35,45 @@ public class KeyInput extends KeyAdapter{
                 {   
                     tempObject.setVelY(-speed);
                     keyDown[0] = true;
+
                 }
                 if(key == KeyEvent.VK_S){
                     tempObject.setVelY(speed);
                     keyDown[1] = true;
+                    
                 }
                 if(key == KeyEvent.VK_A)
                 { 
                     tempObject.setVelX(-speed);
                     keyDown[2] = true;
+                    
                 }
                 if(key == KeyEvent.VK_D)
                 { 
                     tempObject.setVelX(speed);
                     keyDown[3] = true;
+                    
                 }
                 if(key == KeyEvent.VK_SPACE)
                 { 
                     keyDown[4] = true;
+                    tempObject.setAttack(true);
+                }
+                if(key == KeyEvent.VK_UP)
+                {
+                    tempObject.setDirection(1);
+                }
+                if(key == KeyEvent.VK_DOWN)
+                {
+                    tempObject.setDirection(2);
+                }
+                if(key == KeyEvent.VK_LEFT)
+                {
+                    tempObject.setDirection(3);
+                }
+                if(key == KeyEvent.VK_RIGHT)
+                {
+                    tempObject.setDirection(4);
                 }
                 
             }
@@ -80,6 +102,11 @@ public class KeyInput extends KeyAdapter{
                 if(key == KeyEvent.VK_S) keyDown[1] = false;//tempObject.setVelY(0);
                 if(key == KeyEvent.VK_A) keyDown[2] = false;//tempObject.setVelX(0);
                 if(key == KeyEvent.VK_D) keyDown[3] = false;//tempObject.setVelX(0);
+                if(key == KeyEvent.VK_SPACE)
+                { 
+                    keyDown[4] = false;
+                    tempObject.setAttack(false);
+                }
                 
                 //vertical movement
                 if(!keyDown[0] && !keyDown[1])

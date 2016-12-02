@@ -125,6 +125,16 @@ public class Game extends Canvas implements Runnable{
             return var;
     }
     
+    public static boolean outBounds(float var, float min, float max)
+    {
+        if(var >= max)
+            return true;
+        else if(var <= min)
+            return true;
+        else
+            return false;
+    }
+    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Game();

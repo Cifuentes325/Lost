@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 public class Player extends GameObject{
 
 	Handler handler;
-	private boolean attack = false;
+	public int counter = 5;
 	
 	public Player(float x, float y, mobId id, int direction, Handler handler) {
 		super(x, y, id, direction);
@@ -20,7 +20,19 @@ public class Player extends GameObject{
         y += velY;
         x = Game.clamp((int)x, 0, Game.WIDTH-36);
         y = Game.clamp((int)y, 0, Game.HEIGHT-36); 
-		
+        if(attack==true && counter == 0){
+        	handler.addObject(new Bullet(x+16,y+16, mobId.Bullet, direction, handler));
+        	counter = 5;
+        }
+        else if(attack == true && counter > 0){
+        	counter--;
+        }
+        else if(attack == false)
+        {
+        	counter = 0;
+        }
+        	
+		collision();
 	}
 
 	
@@ -29,15 +41,12 @@ public class Player extends GameObject{
         g.fillRect((int)x, (int)y, 32, 32);
 		
 	}
+	
+	public void collision(){
+		
+	}
 
-    public void setAttack(boolean attack)
-    {
-        this.attack = attack;
-    }
-    public boolean getattack()
-    {
-        return attack;
-    }
+
 	
 	public Rectangle getBounds() {
 		return new Rectangle((int)x, (int)y, 32,32);

@@ -3,17 +3,19 @@ package com.coconut.main;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public abstract class mob {
+public abstract class GameObject {
     
     protected float x, y;
     protected mobId id;
     protected float velX, velY;
+    protected int direction; //up = 1, down = 2, left = 3, right = 4
     
-    public mob(float x, float y, mobId id)
+    public GameObject(float x, float y, mobId id, int direction)
     {
         this.x = x;
         this.y = y;
         this.id = id;
+        this.direction = direction;
     }
     
     public abstract void tick();
@@ -57,6 +59,14 @@ public abstract class mob {
     public float getVelY()
     {
         return velY;
+    }
+    public void setDirection(int direction)
+    {
+        this.direction = direction;
+    }
+    public float getDirection()
+    {
+        return direction;
     }
     
 }

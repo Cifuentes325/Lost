@@ -11,13 +11,34 @@ public class Game extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 1963568187483608292L;
 
-	public static final int WIDTH = 1200, HEIGHT = WIDTH/12 *9;
+	public static final int WIDTH = 600, HEIGHT = WIDTH/12 *9;
 	private Thread thread;
 	private boolean running = false;
-	
-	
+	public static boolean paused = false;
+	private Handler handler;
+    public enum STATE{
+        StartMenu,
+        Pause,
+        Shop,
+        Help,
+        Game,
+        End
+    }
+    public static STATE gameState = STATE.StartMenu;
+    
 	public Game(){
+		
+		handler = new Handler();
+		
+		
+		
 		new Window(WIDTH, HEIGHT, "LOST" ,this);
+		this.addKeyListener(new KeyInput(handler,this));
+		//starts games right away for testing
+		gameState = STATE.Game;
+        handler.addObject(new Player(WIDTH/2 -32,HEIGHT/2 - 32, mobId.Player, 1, handler));
+        handler.clearEnemies();
+		
 	}
 	
 
@@ -72,7 +93,7 @@ public class Game extends Canvas implements Runnable{
     }
 	
     private void tick(){
-    
+    	handler.tick();
     }
 	
     private void render(){
@@ -86,9 +107,22 @@ public class Game extends Canvas implements Runnable{
     	Graphics g = bs.getDrawGraphics();
     	g.setColor(Color.BLACK);
     	g.fillRect(0, 0, WIDTH, HEIGHT);
-    	
+    	handler.render(g);
     	g.dispose();
     	bs.show();
+    }
+    
+    
+    //prevets player from going out fo bounds. needs to be adjusted for
+    //future rooms of various shaps
+    public static float clamp(float var, float min, float max)
+    {
+        if(var >= max)
+            return var = max;
+        else if(var <= min)
+            return var = min;
+        else
+            return var;
     }
     
 	public static void main(String[] args) {

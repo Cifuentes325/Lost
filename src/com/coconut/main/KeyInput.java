@@ -9,18 +9,24 @@ public class KeyInput extends KeyAdapter{
 	
     private Handler handler;
     private int speed = 2;
-    private boolean[] keyDown = new boolean[5];
+    private boolean[] keyDown = new boolean[9];
     
     Game game;
     
     public KeyInput(Handler handler, Game game){
         this.handler = handler;
         this.game = game;
-        keyDown[0] = false;
+        keyDown[0] = false;//movement
         keyDown[1] = false;
         keyDown[2] = false;
         keyDown[3] = false;
+        
         keyDown[4] = false;
+        
+        keyDown[5] = false;//direction
+        keyDown[6] = false;
+        keyDown[7] = false;
+        keyDown[8] = false;
 
         
     }  
@@ -59,20 +65,25 @@ public class KeyInput extends KeyAdapter{
                     keyDown[4] = true;
                     tempObject.setAttack(true);
                 }
+                
                 if(key == KeyEvent.VK_UP)
                 {
+                	keyDown[5] = true;
                     tempObject.setDirection(1);
                 }
                 if(key == KeyEvent.VK_DOWN)
                 {
+                	keyDown[6] = true;
                     tempObject.setDirection(2);
                 }
                 if(key == KeyEvent.VK_LEFT)
                 {
+                	keyDown[7] = true;
                     tempObject.setDirection(3);
                 }
                 if(key == KeyEvent.VK_RIGHT)
                 {
+                	keyDown[8] = true;
                     tempObject.setDirection(4);
                 }
                 
@@ -107,12 +118,36 @@ public class KeyInput extends KeyAdapter{
                     keyDown[4] = false;
                     tempObject.setAttack(false);
                 }
+                if(key == KeyEvent.VK_UP) keyDown[5] = false;//tempObject.setVelY(0);
+                if(key == KeyEvent.VK_DOWN) keyDown[6] = false;//tempObject.setVelY(0);
+                if(key == KeyEvent.VK_LEFT) keyDown[7] = false;//tempObject.setVelX(0);
+                if(key == KeyEvent.VK_RIGHT) keyDown[8] = false;//tempObject.setVelX(0);
                 
-                //vertical movement
+                // movement based on released keys
                 if(!keyDown[0] && !keyDown[1])
                     tempObject.setVelY(0);
                 if(!keyDown[2] && !keyDown[3])
                     tempObject.setVelX(0);
+                
+                if(!keyDown[0] && keyDown[1])
+                    tempObject.setVelY(speed);
+                if(keyDown[0] && !keyDown[1])
+                    tempObject.setVelY(-speed);
+                
+                if(!keyDown[2] && keyDown[3])
+                    tempObject.setVelX(speed);
+                if(keyDown[2] && !keyDown[3])
+                    tempObject.setVelX(-speed);
+                
+                if(!keyDown[5] && keyDown[6])
+                    tempObject.setDirection(2);
+                if(keyDown[5] && !keyDown[6])
+                    tempObject.setDirection(1);
+                
+                if(!keyDown[7] && keyDown[8])
+                    tempObject.setDirection(4);
+                if(keyDown[7] && !keyDown[8])
+                    tempObject.setDirection(3);
             }
             
         }

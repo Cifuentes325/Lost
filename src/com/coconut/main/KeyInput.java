@@ -60,31 +60,36 @@ public class KeyInput extends KeyAdapter{
                     keyDown[3] = true;
                     
                 }
+                //SPACE currently unused
                 if(key == KeyEvent.VK_SPACE)
                 { 
                     keyDown[4] = true;
-                    tempObject.setAttack(true);
+                    
                 }
                 
                 if(key == KeyEvent.VK_UP)
                 {
                 	keyDown[5] = true;
                     tempObject.setDirection(1);
+                    tempObject.setAttack(true);
                 }
                 if(key == KeyEvent.VK_DOWN)
                 {
                 	keyDown[6] = true;
                     tempObject.setDirection(2);
+                    tempObject.setAttack(true);
                 }
                 if(key == KeyEvent.VK_LEFT)
                 {
                 	keyDown[7] = true;
                     tempObject.setDirection(3);
+                    tempObject.setAttack(true);
                 }
                 if(key == KeyEvent.VK_RIGHT)
                 {
                 	keyDown[8] = true;
                     tempObject.setDirection(4);
+                    tempObject.setAttack(true);
                 }
                 
             }
@@ -116,7 +121,7 @@ public class KeyInput extends KeyAdapter{
                 if(key == KeyEvent.VK_SPACE)
                 { 
                     keyDown[4] = false;
-                    tempObject.setAttack(false);
+                    //tempObject.setAttack(false);
                 }
                 if(key == KeyEvent.VK_UP) keyDown[5] = false;//tempObject.setVelY(0);
                 if(key == KeyEvent.VK_DOWN) keyDown[6] = false;//tempObject.setVelY(0);
@@ -140,14 +145,29 @@ public class KeyInput extends KeyAdapter{
                     tempObject.setVelX(-speed);
                 
                 if(!keyDown[5] && keyDown[6])
+                {
+                	//tempObject.setAttack(true);
                     tempObject.setDirection(2);
+                }
                 if(keyDown[5] && !keyDown[6])
+                {
+                	//tempObject.setAttack(true);
                     tempObject.setDirection(1);
-                
+                }
                 if(!keyDown[7] && keyDown[8])
-                    tempObject.setDirection(4);
+                {
+                	//tempObject.setAttack(true);
+                	tempObject.setDirection(4);
+                }
                 if(keyDown[7] && !keyDown[8])
+                {
+                	//tempObject.setAttack(true);
                     tempObject.setDirection(3);
+                }
+                if(!keyDown[5] && !keyDown[6] && !keyDown[7] && !keyDown[8])
+                	tempObject.setAttack(false);
+
+                
             }
             
         }

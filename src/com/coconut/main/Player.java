@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 public class Player extends GameObject{
 
 	Handler handler;
-	public int counter = 15;
+	public int counter = 20;
 	public float health;
 	
 	public Player(float x, float y, mobId id, int direction, float health ,Handler handler) {
@@ -26,14 +26,19 @@ public class Player extends GameObject{
         y = Game.clamp((int)y, 0, Game.HEIGHT-36); 
         if(attack==true && counter == 0){
         	handler.addObject(new Bullet(x+16,y+16, mobId.Bullet, direction, handler,this));
-        	counter = 15;
+        	counter = 20;
+        	
         }
         else if(attack == true && counter > 0){
+        	
         	counter--;
         }
         else if(attack == false)
         {
-        	counter = 0;
+        	if(counter > 0)
+        		counter--;
+        	else
+        		counter =0;
         }
         	
 		collision();

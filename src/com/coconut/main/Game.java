@@ -21,6 +21,7 @@ public class Game extends Canvas implements Runnable{
 	public static boolean paused = false;
 	private Handler handler;
 	private HUD hud;
+	private Menu menu;
     public enum STATE{
         StartMenu,
         Pause,
@@ -38,15 +39,11 @@ public class Game extends Canvas implements Runnable{
 		
 		
 		new Window(WIDTH, HEIGHT, "LOST" ,this);
+		menu = new Menu(this, handler);
 		this.addKeyListener(new KeyInput(handler,this));
+		this.addMouseListener(menu);
 		//starts games right away for testing
-		gameState = STATE.Game;
-        handler.addObject(new Player(WIDTH/2 -32,HEIGHT/2 - 32, mobId.Player, 1, 100 ,handler));
-        
-        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
-        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
-        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
-        handler.addObject(new Slime(r.nextInt(WIDTH-50), r.nextInt(HEIGHT - 50), mobId.BasicEnemy, r.nextInt(4), handler));
+
         hud = new HUD(handler,this);
         //handler.clearEnemies();
 		
@@ -95,7 +92,7 @@ public class Game extends Canvas implements Runnable{
             
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                //System.out.println("FPS: " + frames);
                 frames = 0;
             }
             
@@ -104,8 +101,11 @@ public class Game extends Canvas implements Runnable{
     }
 	
     private void tick(){
-    	handler.tick();
-    	hud.tick();
+    	if(gameState == STATE.Game){
+    		handler.tick();
+    		hud.tick();
+    	}
+    	menu.tick();
     	
     }
 	
@@ -120,9 +120,13 @@ public class Game extends Canvas implements Runnable{
     	Graphics g = bs.getDrawGraphics();
     	g.setColor(Color.BLACK);
     	g.fillRect(0, 0, WIDTH, HEIGHT);
-    	hud.render(g);
-    	handler.render(g);
-    	
+    	if(gameState == STATE.Game){
+    		    	hud.render(g);
+    		    	handler.render(g);
+    	}
+    	else if(gameState == STATE.StartMenu || gameState == STATE.Pause){
+    		menu.render(g);
+    	}
     	g.dispose();
     	bs.show();
     }

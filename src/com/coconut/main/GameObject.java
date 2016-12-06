@@ -11,6 +11,7 @@ public abstract class GameObject {
     protected int direction; //up = 1, down = 2, left = 3, right = 4
     protected boolean attack;
     protected float health;
+    protected int score;
     
     public GameObject(float x, float y, mobId id, int direction)
     {
@@ -86,6 +87,12 @@ public abstract class GameObject {
     {
         return health;
     }
-    
+	public void setScore(int points){
+		score = points;
+	}
+	public int getScore(){
+		return score;
+		
+	}
     
 }

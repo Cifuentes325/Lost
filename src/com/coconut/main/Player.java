@@ -9,6 +9,7 @@ public class Player extends GameObject{
 	Handler handler;
 	public int counter = 20;
 	public float health;
+	private int score = 0;
 	
 	public Player(float x, float y, mobId id, int direction, float health ,Handler handler) {
 		super(x, y, id, direction);
@@ -47,19 +48,24 @@ public class Player extends GameObject{
 	
 	public void render(Graphics g) {
         g.setColor(Color.white);
-        g.fillRect((int)x, (int)y, 32, 32);
+        g.fillRect((int)x, (int)y, 16, 16);
 		
 	}
 	
 	public void collision(){
-        for(int i = 0; i < handler.object.size(); ++i)
+		int tempSize = handler.object.size();
+        for(int i = 0; i < tempSize; ++i)
         {
             GameObject tempObject = handler.object.get(i);
-            if(tempObject.getId() == mobId.BasicEnemy ){
-                if(getBounds().intersects(tempObject.getBounds()))
+            if(tempObject.getId() == mobId.BasicEnemy || tempObject.getId() == mobId.EnemyBullet ){
+                if(getBounds().intersects(tempObject.getBounds())){
                     if(getHealth() > 0)
                     	setHealth(getHealth()-3);
-                
+                 
+                    	handler.removeObject(tempObject);
+                    	return;
+              
+                }
             } 
         }
 	}
@@ -67,8 +73,9 @@ public class Player extends GameObject{
 
 	
 	public Rectangle getBounds() {
-		return new Rectangle((int)x, (int)y, 32,32);
+		return new Rectangle((int)x, (int)y, 16,16);
 	}
+	
 
 	
 }

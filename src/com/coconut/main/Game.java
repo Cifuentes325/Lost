@@ -13,15 +13,15 @@ public class Game extends Canvas implements Runnable{
 	private static final long serialVersionUID = 1963568187483608292L;
 
 	
-	private Random r;
 	
-	public static final int WIDTH = 600, HEIGHT = WIDTH/12 *9;
+	public static final int WIDTH = 500, HEIGHT = 900;
 	private Thread thread;
 	private boolean running = false;
 	public static boolean paused = false;
 	private Handler handler;
 	private HUD hud;
 	private Menu menu;
+	private LevelSpawner levelSpawner;
     public enum STATE{
         StartMenu,
         Pause,
@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable{
 	public Game(){
 		
 		handler = new Handler();
-		r = new Random();
+		//r = new Random();
 		
 		
 		new Window(WIDTH, HEIGHT, "LOST" ,this);
@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable{
 		this.addKeyListener(new KeyInput(handler,this));
 		this.addMouseListener(menu);
 		//starts games right away for testing
-
+		levelSpawner = new LevelSpawner(handler, this);
         hud = new HUD(handler,this);
         //handler.clearEnemies();
 		
@@ -92,7 +92,7 @@ public class Game extends Canvas implements Runnable{
             
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                //System.out.println("FPS: " + frames);
+                System.out.println("FPS: " + frames);
                 frames = 0;
             }
             
@@ -104,6 +104,7 @@ public class Game extends Canvas implements Runnable{
     	if(gameState == STATE.Game){
     		handler.tick();
     		hud.tick();
+    		levelSpawner.tick();
     	}
     	menu.tick();
     	
@@ -124,7 +125,7 @@ public class Game extends Canvas implements Runnable{
     		    	hud.render(g);
     		    	handler.render(g);
     	}
-    	else if(gameState == STATE.StartMenu || gameState == STATE.Pause){
+    	else if(gameState == STATE.StartMenu || gameState == STATE.Pause || gameState == STATE.Help){
     		menu.render(g);
     	}
     	g.dispose();

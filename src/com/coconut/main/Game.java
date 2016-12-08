@@ -21,7 +21,10 @@ public class Game extends Canvas implements Runnable{
 	private Handler handler;
 	private HUD hud;
 	private Menu menu;
+	public static boolean bossTrigger = false;
 	private LevelSpawner levelSpawner;
+	public static boolean bossOut = false;
+	public static boolean gameOver = false;
     public enum STATE{
         StartMenu,
         Pause,
@@ -92,7 +95,7 @@ public class Game extends Canvas implements Runnable{
             
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                //System.out.println("FPS: " + frames);
                 frames = 0;
             }
             

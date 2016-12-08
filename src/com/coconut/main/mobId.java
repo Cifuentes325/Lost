@@ -5,6 +5,7 @@ public enum mobId {
 	Player(),
 	Bullet(),
 	BasicEnemy(),
-	EnemyBullet();
+	EnemyBullet(),
+	Boss();
 	
 }

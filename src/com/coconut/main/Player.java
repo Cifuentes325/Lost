@@ -26,8 +26,16 @@ public class Player extends GameObject{
         x = Game.clamp((int)x, 0, Game.WIDTH-36);
         y = Game.clamp((int)y, 0, Game.HEIGHT-36); 
         if(attack==true && counter == 0){
-        	handler.addObject(new Bullet(x+16,y+16, mobId.Bullet, direction, handler,this));
+        	if(getScore() > 1000){
+        		handler.addObject(new Bullet(x+1,y+8, mobId.Bullet, 2, handler,this));
+        	}
+        	if(getScore() >2000)
+        	{
+        		handler.addObject(new Bullet(x+15,y+8, mobId.Bullet, 3, handler,this));
+        	}
+        	handler.addObject(new Bullet(x+8,y+8, mobId.Bullet, 1, handler,this));
         	counter = 20;
+        	
         	
         }
         else if(attack == true && counter > 0){
@@ -41,7 +49,10 @@ public class Player extends GameObject{
         	else
         		counter =0;
         }
-        	
+        if(getHealth() <= 0){
+        	Game.gameOver = true;
+        	handler.removeObject(this);
+        }
 		collision();
 	}
 
@@ -60,13 +71,18 @@ public class Player extends GameObject{
             if(tempObject.getId() == mobId.BasicEnemy || tempObject.getId() == mobId.EnemyBullet ){
                 if(getBounds().intersects(tempObject.getBounds())){
                     if(getHealth() > 0)
-                    	setHealth(getHealth()-3);
+                    	setHealth(getHealth()-1);
                  
                     	handler.removeObject(tempObject);
                     	return;
               
                 }
-            } 
+            }
+            if(tempObject.getId() == mobId.Boss){
+            	if(getBounds().intersects(tempObject.getBounds()))
+                    if(getHealth() > 0)
+                    	setHealth(getHealth()-3);
+            }
         }
 	}
 

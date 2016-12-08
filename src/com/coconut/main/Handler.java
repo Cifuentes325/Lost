@@ -33,11 +33,11 @@ public class Handler {
             GameObject tempObject = object.get(i);
             
             
-            if(tempObject.getId() == mobId.Player){
-                object.clear();
-                if(Game.gameState == Game.STATE.Game){
-                	addObject(new Player((int)tempObject.getX(), (int)tempObject.getY(), mobId.Player, 1,100 ,this));
-                }
+            	if(tempObject.getId() == mobId.Player || Game.gameOver){
+            		object.clear();
+            		if(Game.gameState == Game.STATE.Game){
+            			addObject(new Player((int)tempObject.getX(), (int)tempObject.getY(), mobId.Player, 1,100 ,this));
+            		}
                 
             }
                
